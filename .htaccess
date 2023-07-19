@@ -1,0 +1,48 @@
+
+
+#<IfModule mod_headers.c>
+    #Header set Access-Control-Allow-Origin '*'
+#    Header set Access-Control-Allow-Methods 'GET, POST, OPTIONS, PROPFIND, PROPPATCH, REPORT, PUT, MOVE, DELETE, LOCK, UNLOCK'
+#</IfModule>
+
+
+
+# Handle Authorization Header
+ RewriteCond %{HTTP:Authorization} .
+ RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+#SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+#Header always set Access-Control-Allow-Origin "https://molkul.com"
+##Header always set Access-Control-Allow-Headers "origin, x-requested-with, content-type, Authorization, accept"
+#Header always set Access-Control-Allow-Headers "*"
+#Header always set Access-Control-Allow-Methods "PUT, GET, POST, DELETE, OPTIONS"
+#Header set Access-Control-Allow-Credentials "true"
+
+
+# change * (allow any domain) below to your domain
+#Header set Access-Control-Allow-Origin "*"
+#Header always set Access-Control-Allow-Methods "POST, GET, OPTIONS, DELETE, PUT"
+#Header always set Access-Control-Allow-Headers "Authorization, content-type, csrf-token"
+#Header always set Access-Control-Allow-Credentials "true"
+
+<IfModule mod_rewrite.c>
+   # <IfModule mod_negotiation.c>
+   #     Options -MultiViews
+   # </IfModule>
+
+   RewriteEngine On
+
+    RewriteCond %{REQUEST_FILENAME} -d [OR]
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ ^$1 [N]
+
+    RewriteCond %{REQUEST_URI} (\.\w+$) [NC]
+    RewriteRule ^(.*)$ public/$1
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ server.php
+
+
+</IfModule>
+
